@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="1.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <title>Bíblia Tetelestai</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            background-color: #f9f5f0; /* Fundo claro */
+            color: #333;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px; /* Espaço entre logo e título */
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff, #d3d3d3); /* Efeito 3D */
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.5);
+            object-fit: cover;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            color: #000;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Efeito de sombra no título */
+        }
+
+        .typing-animation {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #000;
+            font-family: 'Roboto', sans-serif;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px; /* Espaço entre os botões */
+            margin-top: 30px;
+        }
+
+        .card {
+            width: 120px;
+            height: 140px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: center;
+            padding: 18px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            flex: 1 1 calc(33.33% - 20px); /* Responsivo para 3 por linha */
+            max-width: 120px;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card i {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Individual button colors */
+        .card:nth-child(1) {
+            background-color: #0D47A1; /* Blue */
+        }
+
+        .card:nth-child(2) {
+            background-color: #1B5E20; /* Green */
+        }
+
+        .card:nth-child(3) {
+            background-color: #D32F2F; /* Red */
+        }
+
+        .card:nth-child(4) {
+            background-color: #F57C00; /* Orange */
+        }
+
+        .card:nth-child(5) {
+            background-color: #512DA8; /* Purple */
+        }
+
+        .card:nth-child(6) {
+            background-color: #0288D1; /* Light Blue */
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .card {
+                flex: 1 1 calc(50% - 20px); /* 2 por linha em telas menores */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                flex: 1 1 calc(100% - 20px); /* 1 por linha em telas muito pequenas */
+            }
+        }
+
+        footer {
+            width: 100%;
+            background-color: #222222;
+            box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .footer-logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+        object-fit: cover;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+        footer .footer-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f0f0f0;
+        }
+
+        footer .donate-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            color: black;
+            background-color: #DAA520; /* Dourado */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        footer .donate-button:hover {
+            background-color: #FFD700; /* Amarelo mais claro */
+            transform: scale(1.05);
+        }
+
+        footer .developer-credit {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        @media (max-width: 480px) {
+            footer .developer-credit {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <img src="logo-preto.png" alt="Logo" class="logo">
+            <h1 class="main-title">Bíblia Tetelestai</h1>
+        </div>
+
+        <div class="typing-animation">
+            <span id="typing"></span>
+        </div>
+
+        <div class="card-container">
+            <div class="card" onclick="window.location.href='biblia-tetelestai.html'">
+                <i class="fas fa-book"></i>
+                <p>Bíblia Sagrada</p>
+            </div>
+            <div class="card" onclick="window.location.href='pages/harpa.html'">
+                <i class="fas fa-book-open"></i>
+                <p>Harpa Cristã</p>
+            </div>
+            <div class="card" onclick="window.location.href='pages/dicio.html'">
+                <i class="fas fa-scroll"></i>
+                <p>Dicionário</p>
+            </div>
+            <div class="card" onclick="window.location.href='pages/search.html'">
+                <i class="fas fa-search"></i>
+                <p>Pesquisar</p>
+            </div>
+            <div class="card" onclick="window.location.href='pages/versododia.html'">
+                <i class="fas fa-dove"></i>
+                <p>Verso do Dia</p>
+            </div>
+            <div class="card" onclick="window.location.href='notas.html'">
+                <i class="fas fa-sticky-note"></i>
+                <p>Notas</p>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+        <img src="logo-dark.png" alt="Footer Logo" class="footer-logo">
+        <p class="footer-title"> Bíblia Tetelestai &nbsp <button class="donate-button" onclick="window.location.href='donate.html'">Doar</button></p>
+        
+        <p class="developer-credit">Developed by Edu</p>
+    </footer>
+
+    <script>
+        const text = ["Leia. Medite. Examine."];
+        let index = 0;
+        let charIndex = 0;
+
+        function type() {
+            const typingElement = document.getElementById("typing");
+            if (charIndex < text[index].length) {
+                typingElement.textContent += text[index][charIndex];
+                charIndex++;
+                setTimeout(type, 150);
+            } else {
+                setTimeout(() => {
+                    typingElement.textContent = "";
+                    charIndex = 0;
+                    index = (index + 1) % text.length;
+                    type();
+                }, 2000);
+            }
+        }
+
+        type();
+    </script>
+</body>
+</html>

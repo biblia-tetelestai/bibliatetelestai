@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="1.png" type="image/x-icon">
+    <title>Página de Pagamento</title>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .payment-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .payment-methods label {
+            display: block;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .payment-form {
+            margin-top: 20px;
+        }
+
+        .payment-option {
+            display: none;
+        }
+
+        .payment-option input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #payButton {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #payButton:hover {
+            background-color: #0056b3;
+        }
+
+        .payment-methods input[type="radio"]:checked+label {
+            font-weight: bold;
+        }
+
+        .payment-methods {
+            text-align: left;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border: 2px solid white;
+            /* Borda branca */
+            border-radius: 50%;
+            /* Botão redondo */
+            background-color: #007BFF;
+            /* Cor azul */
+            color: white;
+            /* Cor do ícone */
+            font-size: 24px;
+            /* Tamanho do ícone */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            /* Remove o sublinhado */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            /* Sombra */
+            cursor: pointer;
+            z-index: 1000;
+            /* Mantém no topo */
+            transition: transform 0.2s ease;
+            /* Animação suave */
+        }
+
+        .back-button:hover {
+            transform: scale(1.2);
+            /* Efeito de aumento ao passar o mouse */
+            background-color: #0056b3;
+            /* Azul mais escuro no hover */
+        }
+
+        .back-button i {
+            margin: 0;
+            /* Remove qualquer espaçamento extra ao redor do ícone */
+        }
+    </style>
+</head>
+
+<body>
+    <a class="back-button" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <div class="payment-container">
+        <h1>Efetuar Pagamento</h1>
+        <div class="payment-methods">
+            <label>
+                <input type="radio" name="payment-method" value="credit-card" checked>
+                Cartão de Crédito
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="debit-card">
+                Cartão de Débito
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="pix">
+                Pix
+            </label>
+        </div>
+
+        <div class="payment-form">
+            <!-- Formulário para Cartão de Crédito -->
+            <div class="credit-card-form payment-option">
+                <h3>Pagamento com Cartão de Crédito</h3>
+                <input type="text" id="cardNumber" placeholder="Número do Cartão" required>
+                <input type="text" id="cardName" placeholder="Nome no Cartão" required>
+                <input type="text" id="cardExpiry" placeholder="Data de Vencimento (MM/AA)" required>
+                <input type="text" id="cardCvc" placeholder="Código de Segurança" required>
+            </div>
+
+            <!-- Formulário para Cartão de Débito -->
+            <div class="debit-card-form payment-option">
+                <h3>Pagamento com Cartão de Débito</h3>
+                <input type="text" id="debitCardNumber" placeholder="Número do Cartão" required>
+                <input type="text" id="debitCardName" placeholder="Nome no Cartão" required>
+                <input type="text" id="debitCardExpiry" placeholder="Data de Vencimento (MM/AA)" required>
+                <input type="text" id="debitCardCvc" placeholder="Código de Segurança" required>
+            </div>
+
+            <!-- Formulário para Pix -->
+            <div class="pix-form payment-option" style="display: none;">
+                <h3>Pagamento com Pix</h3>
+                <p>Para pagar via Pix, faça a transferência para o código abaixo:</p>
+                <div id="pix-code"></div>
+            </div>
+
+            <button id="payButton">Pagar</button>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar o Mercado Pago
+        const mp = new MercadoPago('YOUR_PUBLIC_KEY'); // Substitua com sua chave pública
+
+        // Gerar um pagamento usando o cartão de crédito
+        function payWithCreditCard() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cardName = document.getElementById('cardName').value;
+            const cardExpiry = document.getElementById('cardExpiry').value;
+            const cardCvc = document.getElementById('cardCvc').value;
+
+            // Aqui você usaria a API do Mercado Pago para criar o token do cartão e realizar o pagamento
+            const paymentData = {
+                transaction_amount: 100.0, // Valor da compra
+                token: "TOKEN_DO_CARTÃO", // Token do cartão (você precisa obter isso usando a API)
+                description: "Pagamento de Produto",
+                installments: 1, // Parcelas
+                payment_method_id: "visa", // Método de pagamento, ex: "visa", "master"
+                payer_email: "cliente@dominio.com", // E-mail do cliente
+            };
+
+            mp.checkout().payment({
+                source: paymentData,
+                success: (response) => {
+                    alert('Pagamento realizado com sucesso!');
+                    window.location.href = 'success.html';
+                },
+                error: (response) => {
+                    alert('Erro ao processar o pagamento.');
+                }
+            });
+        }
+
+        // Gerar código Pix
+        function generatePixCode() {
+            const pixCode = '123456789012345678901234567890'; // Substitua com o código real do Pix
+            document.getElementById('pix-code').innerText = pixCode;
+        }
+
+        // Alterar o formulário de pagamento baseado no método escolhido
+        document.querySelectorAll('input[name="payment-method"]').forEach((radio) => {
+            radio.addEventListener('change', (e) => {
+                const selectedMethod = e.target.value;
+
+                document.querySelectorAll('.payment-option').forEach((option) => {
+                    option.style.display = 'none';
+                });
+
+                if (selectedMethod === 'credit-card') {
+                    document.querySelector('.credit-card-form').style.display = 'block';
+                } else if (selectedMethod === 'debit-card') {
+                    document.querySelector('.debit-card-form').style.display = 'block';
+                } else if (selectedMethod === 'pix') {
+                    document.querySelector('.pix-form').style.display = 'block';
+                    generatePixCode(); // Gerar código Pix quando selecionado
+                }
+            });
+        });
+
+        // Lidar com o clique no botão de pagamento
+        document.getElementById('payButton').addEventListener('click', () => {
+            const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+            if (selectedMethod === 'credit-card') {
+                payWithCreditCard();
+            } else if (selectedMethod === 'debit-card') {
+                alert('Pagamento com Cartão de Débito iniciado');
+                window.location.href = 'success.html'; // Simulação de sucesso Cartão de Débito
+            } else if (selectedMethod === 'pix') {
+                alert('Pagamento via Pix iniciado');
+                window.location.href = 'success.html'; // Simulação de sucesso Pix
+            }
+        });
+    </script>
+</body>
+
+</html>

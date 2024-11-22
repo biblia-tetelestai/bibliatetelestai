@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bíblia Tetelestai</title>
+    <link rel="icon" href="1.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header-desktop">
+
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="./pages/versododia.html">Verso do Dia</a></li>
+                <li><a href="./pages/dicio.html">Dicionário</a></li>
+                <li><a href="./pages/search.html">Pesquisar</a></li>
+                <!-- <li class="dropdown">
+                    <span class="dropbtn">Idioma <i class="fas fa-angle-down"></i></span>
+                    <div class="dropdown-content">
+                        <span onclick="changeLanguage('pt')">Português</span>
+                        <span onclick="changeLanguage('en')">Inglês</span>
+                        <span onclick="changeLanguage('es')">Espanhol</span>
+                        <span onclick="changeLanguage('fr')">Francês</span>
+                    </div>
+                </li> -->
+            </ul>
+        </nav>
+        <!-- <div class="read-now">
+            <a href="https://exemplo.com/seu-link-aqui" target="_blank">
+                <button>
+                    <i class="fas fa-book-reader"></i> Leia já
+                </button>
+            </a> -->
+        <div class="acessibility">
+            <button class="accessibility-btn" onclick="toggleAccessibilityTool()">Acessibilidade <i
+                    class="fa fa-universal-access"></i></button>
+            <div class="accessibility-tool">
+                <button onclick="zoomIn()"><i class="fas fa-plus"></i> Aumentar Fonte</button>
+                <button onclick="zoomOut()"><i class="fas fa-minus"></i> Diminuir Fonte</button>
+                <button id="contrastButton" aria-pressed="false" onclick="toggleHighContrast()"><i
+                        class="fas fa-adjust"></i> Contraste</button>
+                <button onclick="toggleLineHighlight()"><i class="fas fa-text-height"></i> Linha de Leitura</button>
+            </div>
+        </div>
+
+        </div>
+
+
+        <div class="mode-toggle">
+            <button onclick="toggleMode()">Dark Mode <i class="fas fa-moon"></i></button>
+        </div>
+
+    </header>
+
+
+    <!-- Para telas menores -->
+    <header class="header-mobile">
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="mode-toggle">
+            <button onclick="toggleMode()">Dark Mode <i class="fas fa-moon"></i></button>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="./pages/versododia.html">Verso do Dia</a></li>
+                <li><a href="./pages/dicio.html">Dicionário</a></li>
+                <li><a href="./pages/search.html">Pesquisar</a></li>
+                <!-- <li><a href="#">Contato</a></li> -->
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <div id="readingLine"></div>
+
+
+    <!-- Acessibilidade -->
+    <button class="accessibility-button" onclick="toggleAccessibilityTools(event)">
+        <i class="fa fa-universal-access"></i>
+    </button>
+    <div class="accessibility-tools" id="accessibilityTools" style="display: none;">
+        <button onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+        <button onclick="zoomOut()"><i class="fas fa-minus"></i></button>
+        <button id="contrastButton" aria-pressed="false" onclick="toggleHighContrast()">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button onclick="toggleLineHighlight()"><i class="fas fa-text-height"></i></button>
+    </div>
+
+    <button id="note-button" onclick="openNotes()">
+        <i class="fas fa-sticky-note"></i>
+    </button>
+
+    <!-- Caixa ao redor do conteúdo -->
+    <div class="container">
+
+        <div class="space"></div>
+        <!-- Tradutor     -->
+        <button id="translate-btn">
+            <i class="fas fa-language"></i>
+        </button>
+
+        <!-- Tradutor  -->
+        <div id="translate-menu" class="hidden">
+            <ul>
+                <li><a href="biblia-tetelestai.html">Português</a></li>
+                <li><a href="en.html">Inglês</a></li>
+                <li><a href="es.html">Espanhol</a></li>
+                <li><a href="fr.html">Francês</a></li>
+            </ul>
+        </div>
+
+        <!-- Versão  -->
+        <div class="unique-container">
+            <div class="unique-dropdown">
+                <button class="unique-dropbtn" onclick="toggleDropdown()">Bíblia NVI (Nova Versão Internacional)
+                    ▼</button>
+                <div class="unique-dropdown-content">
+                    <!-- <a href="biblia-tetelestai.html" data-abbr="nvi"
+                        onclick="selectOption('Bíblia NVI (Nova Versão Internacional)', 'nvi')">Bíblia NVI (Nova Versão
+                        Internacional)</a> -->
+                    <a href="acf.html" data-abbr="acf"
+                        onclick="selectOption('Bíblia ACF (Almeida Corrigida e Fiel)', 'acf')">Bíblia ACF (Almeida
+                        Corrigida
+                        e Fiel)</a>
+                    <a href="aa.html" data-abbr="ara"
+                        onclick="selectOption('Bíblia ARA (Almeida Revista e Atualizada)', 'ara')">Bíblia AA (Almeida
+                        Atualizada)</a>
+                    <!-- <a href="english.html" data-abbr="kjv"
+                        onclick="selectOption('Bíblia KJV (King James Version)', 'kjv')">Bíblia KJV
+                        (King James Version)</a>
+                    <a href="english2.html" data-abbr="bbe"
+                        onclick="selectOption('Bíblia BBE (Bible in Basic English)', 'bbe')">Bíblia
+                        BBE (Bible in Basic English)</a>
+                    <a href="french.html" data-abbr="apee"
+                        onclick="selectOption('Bíblia APEE (Almeida Recebida, Textus Receptus)', 'apee')">Bíblia APEE
+                        (Almeida Recebida, Textus Receptus)</a>
+                    <a href="spanish.html" data-abbr="rvr"
+                        onclick="selectOption('Bíblia RVR (Reina-Valera 1960)', 'rvr')">Bíblia RVR
+                        (Reina-Valera 1960)</a> -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Seção de livros classificados -->
+        <section id="bookSection">
+            <h2>Antigo Testamento</h2>
+
+            <div class="pentateuco">
+                <h3>Pentateuco</h3>
+                <button onclick="displayChapters('gn')"><strong>Gn</strong><span>Gênesis</span></button>
+                <button onclick="displayChapters('ex')"><strong>Êx</strong><span>Êxodo</span></button>
+                <button onclick="displayChapters('lv')"><strong>Lv</strong><span>Levítico</span></button>
+                <button onclick="displayChapters('nm')"><strong>Nm</strong><span>Números</span></button>
+                <button onclick="displayChapters('dt')"><strong>Dt</strong><span>Deuteronômio</span></button>
+            </div>
+
+            <div class="historicos">
+                <h3>Livros Históricos</h3>
+                <button onclick="displayChapters('js')"><strong>Js</strong><span>Josué</span></button>
+                <button onclick="displayChapters('jz')"><strong>Jz</strong><span>Juízes</span></button>
+                <button onclick="displayChapters('rt')"><strong>Rt</strong><span>Rute</span></button>
+                <button onclick="displayChapters('1sm')"><strong>1Sm</strong><span>1 Samuel</span></button>
+                <button onclick="displayChapters('2sm')"><strong>2Sm</strong><span>2 Samuel</span></button>
+                <button onclick="displayChapters('1rs')"><strong>1Rs</strong><span>1 Reis</span></button>
+                <button onclick="displayChapters('2rs')"><strong>2Rs</strong><span>2 Reis</span></button>
+                <button onclick="displayChapters('1cr')"><strong>1Cr</strong><span>1 Crônicas</span></button>
+                <button onclick="displayChapters('2cr')"><strong>2Cr</strong><span>2 Crônicas</span></button>
+                <button onclick="displayChapters('es')"><strong>Es</strong><span>Esdras</span></button>
+                <button onclick="displayChapters('ne')"><strong>Ne</strong><span>Neemias</span></button>
+                <button onclick="displayChapters('et')"><strong>Et</strong><span>Ester</span></button>
+            </div>
+
+            <div class="poeticos">
+                <h3>Livros Poéticos</h3>
+                <button onclick="displayChapters('jó')"><strong>Jó</strong><span>Jó</span></button>
+                <button onclick="displayChapters('sl')"><strong>Sl</strong><span>Salmos</span></button>
+                <button onclick="displayChapters('pv')"><strong>Pv</strong><span>Provérbios</span></button>
+                <button onclick="displayChapters('ec')"><strong>Ec</strong><span>Eclesiastes</span></button>
+                <button onclick="displayChapters('ct')"><strong>Ct</strong><span>Cantares</span></button>
+            </div>
+
+            <div class="profeticos">
+                <h3>Proféticos</h3>
+                <div class="profetas-maiores">
+                    <h4>Profetas Maiores</h4>
+                    <button onclick="displayChapters('is')"><strong>Is</strong><span>Isaías</span></button>
+                    <button onclick="displayChapters('jr')"><strong>Jr</strong><span>Jeremias</span></button>
+                    <button onclick="displayChapters('lm')"><strong>Lm</strong><span>Lamentações</span></button>
+                    <button onclick="displayChapters('ez')"><strong>Ez</strong><span>Ezequiel</span></button>
+                    <button onclick="displayChapters('dn')"><strong>Dn</strong><span>Daniel</span></button>
+                </div>
+                <div class="profetas-menores">
+                    <h4>Profetas Menores</h4>
+                    <button onclick="displayChapters('os')"><strong>Os</strong><span>Oséias</span></button>
+                    <button onclick="displayChapters('jl')"><strong>Jl</strong><span>Joel</span></button>
+                    <button onclick="displayChapters('am')"><strong>Am</strong><span>Amós</span></button>
+                    <button onclick="displayChapters('ob')"><strong>Ob</strong><span>Abdias</span></button>
+                    <button onclick="displayChapters('jn')"><strong>Jn</strong><span>Jonas</span></button>
+                    <button onclick="displayChapters('mq')"><strong>Mq</strong><span>Miquéias</span></button>
+                    <button onclick="displayChapters('na')"><strong>Na</strong><span>Naum</span></button>
+                    <button onclick="displayChapters('hc')"><strong>Hc</strong><span>Habacuque</span></button>
+                    <button onclick="displayChapters('sf')"><strong>Sf</strong><span>Sofonias</span></button>
+                    <button onclick="displayChapters('ag')"><strong>Ag</strong><span>Ageu</span></button>
+                    <button onclick="displayChapters('zc')"><strong>Zc</strong><span>Zacarias</span></button>
+                    <button onclick="displayChapters('ml')"><strong>Ml</strong><span>Maláquias</span></button>
+                </div>
+            </div>
+
+            <h2>Novo Testamento</h2>
+
+            <div class="evangelhos">
+                <h3>Evangelhos</h3>
+                <button onclick="displayChapters('mt')"><strong>Mt</strong><span>Mateus</span></button>
+                <button onclick="displayChapters('mc')"><strong>Mc</strong><span>Marcos</span></button>
+                <button onclick="displayChapters('lc')"><strong>Lc</strong><span>Lucas</span></button>
+                <button onclick="displayChapters('jo')"><strong>Jo</strong><span>João</span></button>
+            </div>
+
+            <div class="igreja">
+                <h3>História da Igreja</h3>
+                <button onclick="displayChapters('atos')"><strong>At</strong><span>Atos</span></button>
+            </div>
+
+            <div class="paulo">
+                <h3>Cartas de Paulo</h3>
+                <button onclick="displayChapters('rm')"><strong>Rm</strong><span>Romanos</span></button>
+                <button onclick="displayChapters('1co')"><strong>1Co</strong><span>1 Coríntios</span></button>
+                <button onclick="displayChapters('2co')"><strong>2Co</strong><span>2 Coríntios</span></button>
+                <button onclick="displayChapters('gl')"><strong>Gl</strong><span>Gálatas</span></button>
+                <button onclick="displayChapters('ef')"><strong>Ef</strong><span>Efésios</span></button>
+                <button onclick="displayChapters('fp')"><strong>Fp</strong><span>Filipenses</span></button>
+                <button onclick="displayChapters('cl')"><strong>Cl</strong><span>Colossenses</span></button>
+                <button onclick="displayChapters('1ts')"><strong>1Ts</strong><span>1 Tessalonicenses</span></button>
+                <button onclick="displayChapters('2ts')"><strong>2Ts</strong><span>2 Tessalonicenses</span></button>
+                <button onclick="displayChapters('1tm')"><strong>1Tm</strong><span>1 Timóteo</span></button>
+                <button onclick="displayChapters('2tm')"><strong>2Tm</strong><span>2 Timóteo</span></button>
+                <button onclick="displayChapters('tt')"><strong>Tt</strong><span>Tito</span></button>
+                <button onclick="displayChapters('fm')"><strong>Fm</strong><span>Filemon</span></button>
+            </div>
+
+            <div class="gerais">
+                <h3>Cartas Gerais</h3>
+                <button onclick="displayChapters('hb')"><strong>Hb</strong><span>Hebreus</span></button>
+                <button onclick="displayChapters('tg')"><strong>Tg</strong><span>Tiago</span></button>
+                <button onclick="displayChapters('1pe')"><strong>1Pe</strong><span>1 Pedro</span></button>
+                <button onclick="displayChapters('2pe')"><strong>2Pe</strong><span>2 Pedro</span></button>
+                <button onclick="displayChapters('1jo')"><strong>1Jo</strong><span>1 João</span></button>
+                <button onclick="displayChapters('2jo')"><strong>2Jo</strong><span>2 João</span></button>
+                <button onclick="displayChapters('3jo')"><strong>3Jo</strong><span>3 João</span></button>
+                <button onclick="displayChapters('jd')"><strong>Jd</strong><span>Judas</span></button>
+            </div>
+
+            <div class="revelacao">
+                <h3>Revelação</h3>
+                <button onclick="displayChapters('ap')"><strong>Ap</strong><span>Apocalipse</span></button>
+            </div>
+
+
+
+            <!-- Seção de capítulos -->
+            <section id="chapterSection" style="display: none;">
+                <h2>Capítulos</h2>
+                <div id="chapterButtons"></div>
+            </section>
+    </div>
+
+
+
+    <!-- Modal box -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <!-- Botões de troca de versão -->
+            <div class="version-buttons">
+                <button class="version-btn" onclick="changeVersion('nvi')" id="btn-nvi">NVI</button>
+                <button class="version-btn" onclick="changeVersion('aa')" id="btn-aa">AA</button>
+                <button class="version-btn" onclick="changeVersion('acf')" id="btn-acf">ACF</button>
+            </div>
+
+            <!-- <button class="close" onclick="closeModal()">×</button> -->
+            <h2 id="modalTitle" class="modal-title">Livro - Capítulo</h2>
+            <div id="output"></div>
+            <div id="verseOptions" class="verse-options" style="display: none;">
+                <button class="circle-btn" id="copyVerse" title="Copy">
+                    <i class="fa fa-copy"></i>
+                </button>
+                <button class="circle-btn" id="shareVerse" title="Share">
+                    <i class="fa fa-share-alt"></i>
+                </button>
+                <button class="circle-btn" id="highlightVerse" title="Highlight">
+                    <i class="fa fa-highlighter"></i>
+                </button>
+                <button class="close-action" id="closeOptions" title="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="prev-button" onclick="navigateChapter('prev')">Anterior</button>
+                <button class="leitura-button" onclick="alternarLeitura()">
+                    <i id="leituraIcon" class="fa fa-volume-up"></i> Leitura
+                </button>
+
+                <button class="next-button" onclick="navigateChapter('next')">Próximo</button>                
+            </div>
+            
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+       
+    </div>
+
+    <!-- Botão com ícone de seta -->
+    <a href="apps.html" class="back-button">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+    <!-- Link para o Font Awesome CDN (se não estiver já incluído) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <footer>
+        <img src="logo-dark.png" alt="Footer Logo" class="footer-logo">
+        <p class="footer-title"> Bíblia Tetelestai &nbsp <button class="donate-button"
+                onclick="window.location.href='donate.html'">Doar</button></p>
+
+        <p class="developer-credit">Developed by Edu</p>
+    </footer>
+
+    <script src="pt.js"></script>
+
+</body>
+
+
+</html>
