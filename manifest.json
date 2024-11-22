@@ -1,0 +1,32 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "browser"],
+  "name": "Bíblia Tetelestai",
+  "short_name": "Tetelestai",
+  "description": "A Bíblia Tetelestai oferece a Bíblia em múltiplos idiomas, com funcionalidades como busca, notas e harpa cristã.",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/?source=pwa",
+  "theme_color": "#f2f2f2",
+  "icons": [
+    {
+      "src": "2.png",
+      "type": "image/png",
+      "sizes": "1080x1080"
+    },
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "categories": ["books", "reference", "education"],
+  "lang": "pt"
+}

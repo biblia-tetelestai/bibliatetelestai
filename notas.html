@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anotações Bíblicas</title>
+    <link rel="icon" href="2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .note-page {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5em;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .button {
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+
+        #createNoteButton {
+            background-color: #28a745;
+            font-size: 1.2em;
+            padding: 12px 20px;
+        }
+
+        .controls {
+            position: fixed;
+            right: 10px;
+            top: 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .controls button {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .controls button:hover {
+            background-color: #27408b;
+        }
+
+        .note-item {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .note-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .note-item .button-edit {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .note-item .button-delete {
+            background-color: #dc3545;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            font-size: 1.2em;
+            color: white;
+            padding: 5px;
+        }
+
+        #noteContent {
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            overflow-y: auto;
+        }
+
+        .formatting-options {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .format-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .format-btn:hover {
+            background-color: #dcdcdc;
+        }
+
+        .save-btn {
+            background-color: #28a745;
+            margin-top: 15px;
+            float: right;
+        }
+
+        /* Dark mode */
+        .dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+
+        .dark-mode .button {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-mode .note-item {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .controls {
+                position: static;
+                flex-direction: row;
+                gap: 5px;
+                justify-content: center;
+                margin-top: 15px;
+            }
+
+            .note-page {
+                width: 100%;
+            }
+        }
+
+        .back-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid white; /* Borda branca */
+    border-radius: 50%; /* Botão redondo */
+    background-color: #007BFF; /* Cor azul */
+    color: white; /* Cor do ícone */
+    font-size: 24px; /* Tamanho do ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Remove o sublinhado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+    cursor: pointer;
+    z-index: 1000; /* Mantém no topo */
+    transition: transform 0.2s ease; /* Animação suave */
+}
+
+.back-button:hover {
+    transform: scale(1.2); /* Efeito de aumento ao passar o mouse */
+    background-color: #0056b3; /* Azul mais escuro no hover */
+}
+
+.back-button i {
+    margin: 0; /* Remove qualquer espaçamento extra ao redor do ícone */
+}
+
+footer {
+    width: 100%;
+    background-color: #222222;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    height: 3rem;
+}
+
+.footer-logo {
+width: 60px;
+height: 60px;
+border-radius: 5px;
+object-fit: cover;
+position: absolute;
+bottom: 10px;
+left: 7rem;
+}
+
+ .footer-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f0f0f0;
+    margin-top: -0rem;
+}
+
+footer .donate-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: black;
+    background-color: #DAA520; /* Dourado */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    height: 35px;
+    width: 75px;
+}
+
+footer .donate-button:hover {
+    background-color: #FFD700; /* Amarelo mais claro */
+    transform: scale(1.05);
+}
+
+footer .developer-credit {
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    font-family: 'Roboto', sans-serif;
+    margin-right: 1rem;
+}
+
+@media (max-width: 480px) {
+    footer .developer-credit {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-logo {
+        display: none;
+    }
+    .footer-title {
+        font-family: 'Roboto', sans-serif;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #f0f0f0;
+        margin-top: -.8rem;
+    }
+    footer {
+        width: 94%;
+        background-color: #222222;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        height: 2rem;
+    }
+}      
+    </style>
+</head>
+<body>
+    <div class="note-page">
+        <header>
+            <h1>Anotações Bíblicas</h1>
+            <button id="createNoteButton" class="button">
+                <i class="fas fa-plus"></i> &nbsp;&nbsp; Criar
+            </button>
+            
+        </header>
+
+        <a class="back-button" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        
+
+        <section id="notesSection"></section>
+
+        <div class="controls">
+            <button id="increaseFontButton" class="button">Aumentar Fonte</button>
+            <button id="decreaseFontButton" class="button">Diminuir Fonte</button>
+            <button id="toggleDarkModeButton" class="button">Dark Mode</button>
+        </div>
+
+        <!-- Modal para Criar/Editar Anotação -->
+        <div id="noteModal" class="modal">
+            <div class="modal-content">
+                <button id="closeModalButton" class="button close-btn">✖</button>
+                <div id="noteContent" contenteditable="true" placeholder="Escreva sua anotação..."></div>
+                <div class="formatting-options">
+                    <button onclick="applyFormat('bold')" class="format-btn"><b>B</b></button>
+                    <button onclick="applyFormat('italic')" class="format-btn"><i>I</i></button>
+                    <button onclick="applyFormat('underline')" class="format-btn"><u>U</u></button>
+                    <button onclick="applyFormat('backColor', 'yellow')" class="format-btn" style="background-color: yellow; color: black;">H</button>
+                </div>
+                <button id="saveNoteButton" class="button save-btn">💾 Salvar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const createNoteButton = document.getElementById("createNoteButton");
+            const noteModal = document.getElementById("noteModal");
+            const closeModalButton = document.getElementById("closeModalButton");
+            const saveNoteButton = document.getElementById("saveNoteButton");
+            const noteContent = document.getElementById("noteContent");
+            const notesSection = document.getElementById("notesSection");
+
+            const toggleDarkModeButton = document.getElementById("toggleDarkModeButton");
+            const increaseFontButton = document.getElementById("increaseFontButton");
+            const decreaseFontButton = document.getElementById("decreaseFontButton");
+
+            let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+            function renderNotes() {
+                notesSection.innerHTML = '';
+                notes.forEach((note, index) => {
+                    const noteDiv = document.createElement("div");
+                    noteDiv.className = "note-item";
+                    noteDiv.innerHTML = `
+                        <span class="note-text">${note.content.slice(0, 50)}...</span>
+                        <button onclick="editNote(${index})" class="button button-edit">Editar</button>
+                        <button onclick="deleteNote(${index})" class="button button-delete">Excluir</button>
+                    `;
+                    notesSection.appendChild(noteDiv);
+                });
+            }
+
+            function saveNote() {
+                const note = { content: noteContent.innerHTML };
+                notes.push(note);
+                localStorage.setItem("notes", JSON.stringify(notes));
+                noteContent.innerHTML = '';
+                renderNotes();
+                noteModal.style.display = 'none';
+            }
+
+            function applyFormat(command, value = null) {
+                document.execCommand(command, false, value);
+            }
+
+            createNoteButton.onclick = () => {
+                noteContent.innerHTML = '';
+                noteModal.style.display = 'flex';
+            };
+            closeModalButton.onclick = () => noteModal.style.display = 'none';
+            saveNoteButton.onclick = saveNote;
+
+            toggleDarkModeButton.onclick = () => document.body.classList.toggle("dark-mode");
+            increaseFontButton.onclick = () => document.body.style.fontSize = `${parseInt(window.getComputedStyle(document.body).fontSize) + 2}px`;
+            decreaseFontButton.onclick = () => document.body.style.fontSize = `${parseInt(window.getComputedStyle(document.body).fontSize) - 2}px`;
+
+            window.editNote = index => {
+                noteContent.innerHTML = notes[index].content;
+                noteModal.style.display = 'flex';
+                saveNoteButton.onclick = () => {
+                    notes[index].content = noteContent.innerHTML;
+                    localStorage.setItem("notes", JSON.stringify(notes));
+                    renderNotes();
+                    noteModal.style.display = 'none';
+                };
+            };
+
+            window.deleteNote = index => {
+                notes.splice(index, 1);
+                localStorage.setItem("notes", JSON.stringify(notes));
+                renderNotes();
+            };
+
+            renderNotes();
+        });
+
+        function applyFormat(command, value = null) {
+    document.execCommand(command, false, value);
+}
+
+
+    </script>
+</body>
+</html>
