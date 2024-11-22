@@ -1,0 +1,3258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar Bíblica</title>
+    <link rel="icon" href="2.png" type="image/x-icon">
+    <style>
+        /* Estilos básicos e responsivos para a página */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .search-input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input-container input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .search-input-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .search-input-container button:hover {
+            background-color: #218838;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .search-results-list {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .search-results-list li {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .no-results {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Botões de Dark Mode e Aumentar/Dininuir Fonte */
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .control-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dark-mode-button {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .dark-mode-button:hover {
+            background-color: #23272b;
+        }
+
+        .font-size-button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .font-size-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos adicionais para Dark Mode */
+        body.dark-mode {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .container.dark-mode {
+            background-color: #23272b;
+            color: white;
+        }
+
+        .search-input-container input.dark-mode {
+            background-color: #495057;
+            color: white;
+        }
+
+        .search-input-container button.dark-mode {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .search-results-list li.dark-mode {
+            background-color: #495057;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        /* ....................................................................................................................................  */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .btn {
+            font-size: 18px;
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            color: #fff;
+            background-color: #e50914;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            white-space: nowrap;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+        .btn:hover {
+            background-color: #b20710;
+            transform: scale(1.05);
+        }
+
+        #buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .book-button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            color: #fff;
+            background-color: #e50914;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5;
+        }
+
+        .book-button:hover {
+            background-color: #b20710;
+            transform: scale(1.05);
+        }
+
+        .book-name {
+            font-size: 14px;
+        }
+
+        .book-abbrev {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #content-container {
+            position: absolute;
+            top: 100px;
+            width: 100%;
+            text-align: center;
+            display: none;
+            margin-top: 130px;
+        }
+
+        .verse {
+            font-size: 16px;
+            margin: 5px;
+            padding: 5px;
+            border: none;
+            color: #000;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .verse-number {
+            font-weight: bold;
+        }
+
+        #read-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 9%;
+        }
+
+        #back-to-chapters-button {
+            display: none;
+            position: fixed;
+            top: 30px;
+            left: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 9%;
+        }
+
+        #back-to-books-button {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10%;
+        }
+
+        /* Estilos para centralizar os títulos */
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            /* Adiciona um espaço superior para estilização */
+        }
+
+        .book-abbrev,
+        .book-name,
+        #title {
+            text-align: center;
+        }
+
+        #verse-options-menu {
+            position: fixed;
+            bottom: 20px;
+            /* Adiciona espaço entre a parte inferior da tela e o menu */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background-color: #444;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #verse-options-menu button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            /* Cor do texto branco */
+        }
+
+        #verse-options-menu button:hover {
+            opacity: 0.8;
+            /* Reduz a opacidade ao passar o mouse */
+        }
+
+        #copy-verse-btn {
+            background-color: #007bff;
+            /* Cor de fundo azul do Bootstrap */
+        }
+
+        #share-verse-btn {
+            background-color: #28a745;
+            /* Cor de fundo verde do Bootstrap */
+        }
+
+
+
+        .verse {
+            transition: transform 0.3s ease;
+        }
+
+        .verse:hover {
+            transform: scale(0.95);
+        }
+
+        .verse.marked {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        /* Estilos para o botão "Marcar" */
+        #mark-verse-btn {
+            background-color: yellow !important;
+            color: black !important;
+        }
+
+        /* Estilos para o ícone do botão "Marcar" */
+        #mark-verse-btn i {
+            color: black !important;
+        }
+
+        /* Estilo para o verso marcado */
+        .verse.marked {
+            background-color: #ffffcc;
+            /* Amarelo claro */
+        }
+
+        /* Estilo para tornar o texto em negrito */
+        .verse.marked span.verse-number,
+        .verse.marked span.verse-text {
+            font-weight: bold;
+        }
+
+        /* Estilos para versículos marcados */
+        .verse.marked {
+            background-color: yellow;
+            /* Fundo amarelo para versículos marcados */
+            font-weight: bold;
+            /* Texto em negrito para versículos marcados */
+        }
+
+
+
+
+        /* Estilização do efeito de hover nas laterais */
+        .verse-page .hover-effect::before,
+        .verse-page .hover-effect::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            width: 5%;
+            height: 100%;
+            background-color: rgba(211, 211, 211, 0.5);
+            /* Cinza claro com 50% de transparência */
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .verse-page .hover-effect::before {
+            left: 0;
+        }
+
+        .verse-page .hover-effect::after {
+            right: 0;
+        }
+
+        /* Quando o mouse passa nas laterais */
+        .verse-page:hover .hover-effect::before,
+        .verse-page:hover .hover-effect::after {
+            opacity: 1;
+        }
+
+        /* Estilos adicionais para ajustar a sobreposição */
+        .verse-container {
+            position: relative;
+            z-index: 2;
+            /* Colocar o conteúdo acima dos pseudo-elementos */
+        }
+
+        /* Estilos para a linha horizontal */
+        .line {
+            width: calc(100% - 20px);
+            /* Calcula o tamanho da linha */
+            height: 1px;
+            /* Espessura da linha */
+            background-color: #000;
+            /* Cor da linha */
+            margin-left: auto;
+            /* Alinha à direita */
+            margin-right: auto;
+            /* Alinha à esquerda */
+        }
+
+        /* Estilos para a caixa transparente */
+        .transparent-box {
+            width: 100%;
+            height: 1px;
+            /* Espessura da linha */
+            background-color: transparent;
+        }
+
+        /* Estilos para a página */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            /* Cor de fundo */
+            font-family: Arial, sans-serif;
+            color: #333;
+            /* Cor do texto */
+        }
+
+        /* Estilos para os títulos */
+        h3 {
+            color: #333;
+            /* Cor do texto */
+        }
+
+        h4 {
+            color: #333;
+            /* Cor do texto */
+        }
+
+        /* Estilos para a lista de botões */
+        .book-list {
+            list-style: none;
+            /* Remover marcadores de lista */
+            padding: 0;
+            margin: 0;
+        }
+
+        .book-title {
+            font-weight: bold;
+        }
+
+        .book-button {
+            display: block;
+            /* Exibir botões em bloco */
+            border: none;
+            cursor: pointer;
+            outline: none;
+            padding: 8px;
+            /* Adicionar espaçamento interno aos botões */
+            border-radius: 5px;
+            font-size: 14px;
+            width: 120px;
+            /* Definir largura fixa para os botões */
+            height: 120px;
+            /* Definir altura fixa para os botões */
+            text-align: left;
+            /* Alinhar texto à esquerda */
+            line-height: 1.5;
+            /* Altura da linha para centralizar verticalmente */
+        }
+
+        /* Estilização específica para a primeira linha de texto dentro do botão */
+        .book-button .first-line {
+            font-size: 18px;
+            /* Ajustar o tamanho da primeira linha de texto */
+            font-weight: bold;
+            /* Deixar o primeiro texto em negrito */
+        }
+
+        /* Estilização específica para a segunda linha de texto dentro do botão (abreviação) */
+        .book-button .second-line {
+            font-size: 14px;
+            /* Ajustar o tamanho da segunda linha de texto */
+        }
+
+        /* Estilos adicionais para responsividade */
+        @media screen and (max-width: 768px) {
+            .book-button {
+                font-size: 12px;
+                /* Reduzir o tamanho do texto para dispositivos menores */
+                width: 40%;
+                /* Largura de 40% com margem entre os botões */
+                height: auto;
+                /* Altura automática para ajustar ao conteúdo */
+                margin: 5px;
+                /* Margem entre os botões */
+            }
+
+            /* Ajustar tamanho do texto para dispositivos menores */
+            .book-button .first-line {
+                font-size: 14px;
+                /* Ajustar o tamanho da primeira linha de texto */
+            }
+
+            .book-button .second-line {
+                font-size: 11px;
+                /* Ajustar o tamanho da segunda linha de texto */
+            }
+        }
+
+
+        /* Estilos para telas pequenas */
+        @media (max-width: 767px) {
+            .book-table .book-button {
+                /* Estilos para telas menores ou iguais a 767px de largura */
+                width: 100%;
+                /* Defina o tamanho dos botões para ocupar 48% da largura do contêiner */
+                margin-bottom: 10px;
+                /* Espaçamento inferior para separação entre linhas */
+                margin: 5px;
+            }
+        }
+
+        #navigation-buttons {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .navigation-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .navigation-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Título  */
+        #title {
+            /*background-color: white; /* Fundo branco */
+
+            /* padding: 10px 20px; */
+            /* Espaçamento interno */
+            border-radius: 10px;
+            /* Bordas arredondadas */
+            text-align: center;
+            /* Centralizar texto */
+            /*background: linear-gradient(to right, #0c00f5, #ff00ee); /* Degradê entre azul escuro e cinza para o texto */
+            /*-webkit-background-clip: text; /* Clipar o degradê para o texto */
+            /*-webkit-text-fill-color: transparent; /* Faz com que o texto adote a cor do degradê */
+            font-family: 'Roboto', sans-serif;
+            /* Fonte Sacramento */
+            color: black;
+            /* Cor preta */
+            margin-top: 45px;
+        }
+
+        /* Menuzinho  */
+        .menu-container {
+            position: fixed;
+            /* Posição fixa na tela */
+            top: 20%;
+            right: 20px;
+            /* Distância do canto direito */
+        }
+
+        .question-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #800080;
+            /* Fundo roxo */
+            color: #fff;
+            /* Texto branco */
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            right: 50px;
+            /* Posicionamento à esquerda do botão de ponto de interrogação */
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dropdown-content button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .menu-container:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Máscara de leitura  */
+        .reading-highlight {
+            background-color: yellow;
+            /* Cor de destaque */
+        }
+
+        .reading-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Cor de fundo semi-transparente */
+            z-index: 9999;
+            /* Garante que a máscara de leitura fique acima de todo o conteúdo */
+        }
+
+        .orange-line {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 20%;
+            height: 2px;
+            background-color: orange;
+            cursor: grab;
+            z-index: 9999;
+            display: none;
+        }
+
+        /* ...............................................................................................................................................  */
+
+        .dark-mode body {
+            background-color: #333;
+            /* Cor de fundo para o dark mode */
+        }
+
+        header {
+            position: fixed;
+            /* Torna o menu fixo na parte superior */
+            top: 0;
+            /* Posiciona o menu no topo da página */
+            width: 70%;
+            /* Reduz a largura do menu */
+            z-index: 1000;
+            /* Garante que o menu esteja acima de outros elementos */
+            background-color: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Centraliza os elementos e deixa o logo e o botão darkmode nas extremidades */
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode header {
+            background-color: #222;
+            /* Cor de fundo para o dark mode */
+        }
+
+        .logo img {
+            width: 80px;
+            /* Aumenta o tamanho da logo */
+            height: 80px;
+            /* Aumenta o tamanho da logo */
+            transition: filter 0.3s ease;
+        }
+
+        .dark-mode .logo img {
+            filter: brightness(0.8);
+            /* Reduz o brilho da logo no dark mode */
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: royalblue;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode nav ul li a {
+            color: #ddd;
+            /* Letras em cinza claro para o dark mode */
+        }
+
+        nav ul li a:hover {
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            /* Faz o menu dropdown aparecer abaixo do texto */
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #222;
+            /* Cinza escuro para o dark mode */
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 1;
+            /* Garante que o menu dropdown apareça sobre outros elementos */
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            /* Mostra o menu dropdown quando passa o mouse sobre o texto */
+        }
+
+        .dropdown-content span {
+            display: block;
+            margin-bottom: 5px;
+            /* Adiciona um espaço entre as opções do dropdown */
+            color: #ddd;
+            /* Letras em cinza claro para o dark mode */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .dropdown-content span {
+            color: #ddd;
+            /* Letras em cinza claro para o dark mode */
+        }
+
+        .dropdown-content span:hover {
+            text-decoration: underline;
+            /* Sublinhado ao passar o mouse */
+        }
+
+        .mode-toggle {
+            margin-right: 30px;
+            /* Espaçamento entre o menu dropdown e o botão dark mode */
+        }
+
+        .mode-toggle button {
+            background-color: #2c3e50;
+            /* Azul escuro para o dark mode */
+            color: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            /* Aumenta o arredondamento do botão */
+            padding: 15px 30px;
+            /* Aumenta o tamanho do botão */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .mode-toggle button {
+            background-color: #6a0dad;
+            /* Roxo escuro para o dark mode */
+        }
+
+        .mode-toggle button:hover {
+            background-color: #34495e;
+            /* Tom de azul mais escuro para o hover */
+        }
+
+        .dark-mode .mode-toggle button:hover {
+            background-color: #4c0783;
+            /* Tom de roxo mais escuro para o hover */
+        }
+
+        /* Animations */
+        @keyframes darkModeAnimation {
+            from {
+                filter: brightness(1);
+            }
+
+            to {
+                filter: brightness(0.5);
+            }
+        }
+
+        header {
+            position: fixed;
+            /* Mantém o menu fixo na parte superior */
+            top: 20px;
+            /* Adiciona espaço entre o topo da tela e o menu */
+            left: 50%;
+            /* Centraliza o menu horizontalmente */
+            transform: translateX(-50%);
+            /* Ajusta o ponto central do menu */
+            width: 70%;
+            /* Mantém a largura do menu */
+            z-index: 1000;
+            /* Garante que o menu fique acima de outros elementos */
+            background-color: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            /* Reduz o preenchimento para diminuir a altura */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Distribui o espaço entre os elementos dentro do menu */
+            transition: background-color 0.3s ease;
+        }
+
+        .logo img {
+            width: 60px;
+            /* Diminui o tamanho da logo */
+            height: 60px;
+            /* Diminui o tamanho da logo */
+            transition: filter 0.3s ease;
+        }
+
+        /* Mantenha o resto do CSS como está */
+
+        .dark-mode-text,
+        .dark-mode-header,
+        .dropdown-content span {
+            color: #FFFFFF;
+            /* Define o texto para branco */
+        }
+
+        nav a,
+        nav span,
+        .dropbtn,
+        .dropdown-content span {
+            font-weight: bold;
+        }
+
+        .mode-toggle button {
+            font-weight: bold;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: royalblue;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            position: relative;
+            /* Necessário para o posicionamento absoluto de ::before e ::after */
+            padding: 10px 0;
+            /* Aumenta o espaçamento vertical */
+        }
+
+        nav ul li a::before,
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            /* Aumenta a espessura da linha */
+            background-color: royalblue;
+            /* Cor da linha */
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            /* Começa sem visibilidade */
+        }
+
+        nav ul li a::before {
+            top: -5px;
+            /* Mantém a posição acima do texto */
+        }
+
+        nav ul li a::after {
+            bottom: -5px;
+            /* Mantém a posição abaixo do texto */
+        }
+
+        nav ul li a:hover::before,
+        nav ul li a:hover::after {
+            transform: scaleX(1);
+            /* Expande a linha ao passar o mouse */
+        }
+
+        /* Estilos para o modo dark */
+        .dark-mode nav ul li a::before,
+        .dark-mode nav ul li a::after {
+            background-color: #ddd;
+            /* Cor da linha para o modo dark */
+        }
+
+        nav {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        nav a {
+            font-weight: 700;
+            /* Aplica o peso negrito */
+        }
+
+        .full-width-div {
+            height: 140px;
+            /* Altura ajustada para 150px */
+            width: 100%;
+            background-color: inherit;
+            /* Herda a cor de fundo do body */
+            z-index: 9999999;
+        }
+
+
+
+        /* Leia já  */
+
+        .read-now button {
+            background-color: royalblue;
+            /* Fundo azul royal */
+            color: white;
+            /* Texto em branco */
+            font-weight: bold;
+            /* Texto em negrito */
+            padding: 10px 20px;
+            /* Espaçamento interno */
+            border: 2px solid transparent;
+            /* Borda transparente inicial */
+            border-radius: 5px;
+            /* Borda arredondada */
+            cursor: pointer;
+            /* Muda o cursor para indicar clicabilidade */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .read-now button:hover {
+            background-color: white;
+            /* Fundo fica branco */
+            color: royalblue;
+            /* Texto fica azul royal */
+            border-color: royalblue;
+            /* Borda azul royal */
+        }
+
+
+
+        .read-now a {
+            text-decoration: none;
+            /* Remove sublinhado dos links */
+        }
+
+        .read-now a:visited,
+        .read-now a:link {
+            color: inherit;
+            /* Mantém a cor herdada, sem alteração pelo link */
+        }
+
+        .box {
+            margin-top: 10%;
+        }
+
+        /* ................................................................................  */
+        /* Acessibilidade  */
+        .accessibility-button {
+            background-color: #007BFF;
+            /* Azul Bootstrap */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
+            /* Borda arredondada */
+            cursor: pointer;
+            /* Muda o cursor para indicar clicabilidade */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .accessibility-button {
+            background-color: #0056b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        .accessibility-button:hover {
+            background-color: #007bff;
+        }
+
+        .accessibility-tools button {
+            background-color: #6c757d;
+            width: 48%;
+            margin-top: 5px;
+        }
+
+        .accessibility-tools button {
+            background-color: royalblue;
+            /* Fundo azul royal */
+            color: white;
+            /* Texto em branco */
+            font-weight: bold;
+            /* Texto em negrito */
+            padding: 10px 20px;
+            /* Espaçamento interno */
+            border: 2px solid transparent;
+            /* Borda transparente inicial */
+            border-radius: 5px;
+            /* Borda arredondada */
+            cursor: pointer;
+            /* Muda o cursor para indicar clicabilidade */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .accessibility-tools button:hover {
+            background-color: white;
+            /* Fundo fica branco */
+            color: royalblue;
+            /* Texto fica azul royal */
+            border-color: royalblue;
+            /* Borda azul royal */
+        }
+
+
+
+        .accessibility-tools a {
+            text-decoration: none;
+            /* Remove sublinhado dos links */
+        }
+
+        .accessibility-tools a:visited,
+        .accessibility-tools a:link {
+            color: inherit;
+            /* Mantém a cor herdada, sem alteração pelo link */
+        }
+
+        .accessibility-tools {
+            display: none;
+        }
+
+        .unique-container {
+            width: 100%;
+            padding-top: 20px;
+            /* Espaço no topo */
+            display: flex;
+            justify-content: center;
+            /* Centraliza horizontalmente */
+        }
+
+        .unique-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .unique-dropbtn {
+            background-color: #f5f5f5;
+            /* Cor de fundo da página */
+            color: black;
+            padding: 20px 50px;
+            /* Padding aumentado para botão maior */
+            font-size: 32px;
+            /* Tamanho do texto igual a um h1 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            /* Fonte em negrito */
+        }
+
+        .unique-dropbtn:hover {
+            background-color: #e0e0e0;
+            /* Fundo mais escuro ao passar o mouse */
+        }
+
+        .unique-arrow-down {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid black;
+            /* Seta preta */
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+
+        .unique-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+            top: calc(100% + 5px);
+            /* Ajustado para evitar sobreposição direta */
+            left: 0;
+            right: 0;
+            margin: auto;
+            /* Centraliza automaticamente */
+        }
+
+        .unique-dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
+
+        .unique-dropdown-content a:hover {
+            background-color: #555;
+        }
+
+        .unique-dropdown.show .unique-dropdown-content {
+            display: block;
+        }
+
+        .unique-dropdown.show .unique-arrow-down {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Adicionando regra de mídia para telas menores */
+        @media (max-width: 600px) {
+            .unique-dropbtn {
+                font-size: 18px;
+                /* Tamanho de fonte menor em telas pequenas */
+            }
+        }
+
+        #readingLine {
+            width: calc(100%);
+            height: 5px;
+            background-color: orange;
+            border: 1px solid black;
+            position: absolute;
+            display: none;
+            z-index: 9999;
+        }
+
+        /* Configurações gerais de alto contraste */
+        .high-contrast {
+            background-color: black;
+            color: white;
+            border-color: white;
+        }
+
+        /* Estilos específicos para texto, links, e elementos interativos */
+        .high-contrast a,
+        .high-contrast a:visited,
+        .high-contrast a:hover {
+            color: yellow;
+            /* Links amarelos para destacar */
+        }
+
+        .high-contrast button,
+        .high-contrast input[type="button"],
+        .high-contrast input[type="submit"],
+        .high-contrast input[type="reset"],
+        .high-contrast select,
+        .high-contrast textarea,
+        .high-contrast input[type="text"],
+        .high-contrast input[type="email"] {
+            background-color: #333;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .high-contrast button:hover,
+        .high-contrast input[type="button"]:hover,
+        .high-contrast input[type="submit"]:hover,
+        .high-contrast input[type="reset"]:hover {
+            background-color: #555;
+            color: #FF0;
+        }
+
+        /* Títulos e cabeçalhos */
+        .high-contrast h1,
+        .high-contrast h2,
+        .high-contrast h3,
+        .high-contrast h4,
+        .high-contrast h5,
+        .high-contrast h6 {
+            color: cyan;
+        }
+
+        /* Parágrafos e outros elementos de texto */
+        .high-contrast p,
+        .high-contrast span,
+        .high-contrast div,
+        .high-contrast section,
+        .high-contrast article,
+        .high-contrast aside,
+        .high-contrast footer,
+        .high-contrast header,
+        .high-contrast nav,
+        .high-contrast main {
+            color: white;
+            background-color: black;
+        }
+
+        /* Listas */
+        .high-contrast ul,
+        .high-contrast ol,
+        .high-contrast li {
+            background-color: black;
+            color: white;
+        }
+
+        /* Tabelas */
+        .high-contrast table,
+        .high-contrast th,
+        .high-contrast td {
+            /* border: 1px solid white;  */
+            color: #ffff00;
+            background-color: black;
+        }
+
+        /* Imagens e vídeos */
+        .high-contrast img,
+        .high-contrast video {
+            filter: brightness(0.8) contrast(1.5);
+        }
+
+        /* Formulários e controles de entrada */
+        .high-contrast input,
+        .high-contrast textarea,
+        .high-contrast select,
+        .high-contrast label {
+            background-color: #222;
+            color: white;
+            border: 1px solid white;
+        }
+
+        /* Links e estados interativos */
+        .high-contrast a:hover,
+        .high-contrast button:hover,
+        .high-contrast input:hover,
+        .high-contrast textarea:hover,
+        .high-contrast select:hover {
+            background-color: #555;
+            color: yellow;
+        }
+
+        /* Barras de rolagem */
+        .high-contrast ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .high-contrast ::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        .high-contrast ::-webkit-scrollbar-thumb {
+            background: #ccc;
+        }
+
+        .high-contrast ::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+        /* Outras regras para garantir a visibilidade */
+        .high-contrast * {
+            box-shadow: none !important;
+            text-shadow: none !important;
+        }
+
+        /* Aplicar alto contraste em todos os ícones e svg */
+        .high-contrast svg,
+        .high-contrast path,
+        .high-contrast use {
+            fill: white;
+            stroke: white;
+        }
+
+        /* Frames e iframes */
+        .high-contrast iframe,
+        .high-contrast frame {
+            filter: grayscale(100%) brightness(0.8) contrast(1.5);
+        }
+
+
+
+        /* anterior e próximo  */
+        #buttonContainer {
+            position: fixed;
+            bottom: 20px;
+            /* Define a distância do contêiner de botões ao fundo da janela */
+            left: 50%;
+            /* Centraliza horizontalmente */
+            transform: translateX(-50%);
+            /* Centraliza horizontalmente */
+            z-index: 999;
+            /* Garante que os botões estejam sempre acima de outros elementos */
+            display: none;
+        }
+
+
+        #previousButton,
+        #nextButton {
+            padding: 10px 18px;
+            /* Diminui o espaço interno dos botões */
+            font-size: 16px;
+            /* Diminui o tamanho do texto */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            /* Adiciona uma transição suave à mudança de transformação e cor de fundo */
+            border-radius: 5px;
+            /* Bordas arredondadas */
+            font-weight: bold;
+            /* Texto em negrito */
+            z-index: 9999;
+        }
+
+        #nextButton {
+            margin-left: 10px;
+            /* Espaço entre os botões */
+        }
+
+        #previousButton:hover,
+        #nextButton:hover {
+            transform: scale(1.1);
+            /* Aumenta o tamanho do botão em 10% ao passar o mouse sobre ele */
+            background-color: #0008ff;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #verse-menu {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none;
+        }
+
+        .menu-option {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .menu-option:hover {
+            color: #007bff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+        #verse-options-menu {
+            position: fixed;
+            bottom: 20px;
+            /* Adiciona espaço entre a parte inferior da tela e o menu */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background-color: #444;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #verse-options-menu button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            /* Cor do texto branco */
+        }
+
+        #verse-options-menu button:hover {
+            opacity: 0.8;
+            /* Reduz a opacidade ao passar o mouse */
+        }
+
+        #copy-verse-btn {
+            background-color: #007bff;
+            /* Cor de fundo azul do Bootstrap */
+        }
+
+        #share-verse-btn {
+            background-color: #28a745;
+            /* Cor de fundo verde do Bootstrap */
+        }
+
+        /* Adicionando regra de mídia para telas menores */
+        @media (max-width: 600px) {
+            header {
+                padding: 10px;
+                /* Adicione um preenchimento menor */
+            }
+
+            .logo img {
+                max-width: 100px;
+                /* Reduza o tamanho do logotipo */
+            }
+
+            nav ul {
+                flex-direction: column;
+                /* Alinhe os itens verticalmente */
+            }
+
+            nav ul li {
+                margin-bottom: 10px;
+                /* Adicione margem entre os itens do menu */
+            }
+
+            .accessibility-button {
+                font-size: 14px;
+                /* Reduza o tamanho do botão de acessibilidade */
+            }
+
+            .accessibility-tools button {
+                font-size: 14px;
+                /* Reduza o tamanho dos botões de acessibilidade */
+            }
+
+            .mode-toggle button {
+                font-size: 14px;
+                /* Reduza o tamanho do botão de alternância de modo */
+            }
+        }
+
+        /* ..............................................................................................................................  */
+        /* Tradutor  */
+
+        #translate-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            z-index: 9999;
+        }
+
+        #translate-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #translate-btn i {
+            font-size: 24px;
+            color: white;
+        }
+
+        #translate-menu {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        #translate-menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #translate-menu li {
+            padding: 10px;
+            position: relative;
+        }
+
+        #translate-menu li a {
+            text-decoration: none;
+            color: #007bff;
+            /* Alterando a cor do texto para azul */
+            display: block;
+            position: relative;
+            line-height: 1.5;
+            /* Espaçamento maior entre as linhas e o texto */
+            font-weight: bold;
+            /* Deixando o texto em negrito */
+            font-family: Roboto, sans-serif;
+            /* Alterando a fonte para Roboto */
+        }
+
+        #translate-menu li a:hover::before,
+        #translate-menu li a:hover::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            /* Aumentando a espessura da linha */
+            background-color: #007bff;
+        }
+
+        #translate-menu li a:hover::before {
+            top: 0;
+        }
+
+        #translate-menu li a:hover::after {
+            bottom: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        body.dark-mode #translate-btn {
+            background-color: #004080;
+        }
+
+        body.dark-mode #translate-btn:hover {
+            background-color: #00264d;
+        }
+
+        body.dark-mode #translate-btn i {
+            color: #ffffff;
+        }
+
+        body.dark-mode #translate-menu {
+            background-color: #222222;
+            border: 1px solid #555555;
+        }
+
+        body.dark-mode #translate-menu li a {
+            color: #ffffff;
+        }
+
+        body.dark-mode #translate-menu li a:hover::before,
+        body.dark-mode #translate-menu li a:hover::after {
+            background-color: #ffffff;
+        }
+
+        /* ............................................................................................................................  */
+        /* Versão  */
+
+        .unique-container {
+            width: 100%;
+            padding-top: 20px;
+            /* Espaço no topo */
+            display: flex;
+            justify-content: center;
+            /* Centraliza horizontalmente */
+        }
+
+        .unique-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .unique-dropbtn {
+            background-color: #f5f5f5;
+            /* Cor de fundo da página */
+            color: black;
+            padding: 20px 50px;
+            /* Padding aumentado para botão maior */
+            font-size: 32px;
+            /* Tamanho do texto igual a um h1 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            /* Fonte em negrito */
+        }
+
+        .unique-dropbtn:hover {
+            background-color: #e0e0e0;
+            /* Fundo mais escuro ao passar o mouse */
+        }
+
+        .unique-arrow-down {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid black;
+            /* Seta preta */
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+
+        .unique-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+            top: calc(100% + 5px);
+            /* Ajustado para evitar sobreposição direta */
+            left: 0;
+            right: 0;
+            margin: auto;
+            /* Centraliza automaticamente */
+        }
+
+        .unique-dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
+
+        .unique-dropdown-content a:hover {
+            background-color: #555;
+        }
+
+        .unique-dropdown.show .unique-dropdown-content {
+            display: block;
+        }
+
+        .unique-dropdown.show .unique-arrow-down {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Adicionando regra de mídia para telas menores */
+        @media (max-width: 600px) {
+            .unique-dropbtn {
+                font-size: 18px;
+                /* Tamanho de fonte menor em telas pequenas */
+            }
+        }
+
+
+
+
+
+
+
+
+
+        /* Mantenha o resto do CSS como está */
+
+        /* Estilos para telas maiores */
+        @media (min-width: 601px) {
+
+            /* Esconde o header de telas menores */
+            .header-mobile {
+                display: none;
+            }
+
+            /* Exibe o header padrão para telas maiores */
+            .header-desktop {
+                display: flex;
+                /* align-items: center; */
+                /* justify-content: space-between; */
+                padding: 10px 20px;
+                background-color: #f5f5f5;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .logo {
+                max-width: 150px;
+            }
+
+            .dark-mode-toggle {
+                display: block;
+            }
+
+            .menu-icon {
+                display: none;
+                /* Oculta o ícone do menu hamburguer */
+            }
+
+            nav {
+                display: flex;
+                align-items: center;
+            }
+
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav ul li {
+                margin-left: 20px;
+            }
+
+            nav ul li a {
+                text-decoration: none;
+                color: royalblue;
+                font-size: 18px;
+                transition: color 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: #555;
+            }
+        }
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+
+            /* Esconde o header padrão para telas maiores */
+            .header-desktop {
+                display: none;
+            }
+
+            /* Exibe o header de telas menores */
+            .header-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 20px;
+                background-color: #f5f5f5;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .logo {
+                max-width: 150px;
+            }
+
+            .dark-mode-toggle {
+                display: block;
+            }
+
+            .menu-icon {
+                display: block;
+                /* Exibe o ícone do menu hamburguer */
+                cursor: pointer;
+            }
+
+            nav {
+                display: none;
+                /* Inicialmente oculta a navegação */
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                /* Altura do header */
+                left: 0;
+                background-color: #f5f5f5;
+            }
+
+            nav.open {
+                display: flex;
+                /* Exibe a navegação quando o menu é aberto */
+            }
+
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav ul li {
+                margin-top: 10px;
+            }
+
+            nav ul li a {
+                text-decoration: none;
+                color: royalblue;
+                font-size: 18px;
+                transition: color 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: #555;
+            }
+        }
+
+
+        /* .......................................................................................................................  */
+        /* Header para telas menores  */
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .header-mobile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .header-mobile .menu-icon {
+                display: block;
+            }
+
+            .header-mobile .menu-icon svg {
+                width: 30px;
+                height: auto;
+                cursor: pointer;
+            }
+
+            .mobile-nav {
+                display: none;
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .mobile-nav ul li {
+                margin-bottom: 10px;
+            }
+
+            .mobile-nav ul li a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+
+
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .header-mobile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .header-mobile .menu-icon {
+                display: block;
+            }
+
+            .header-mobile .menu-icon svg {
+                width: 30px;
+                height: auto;
+                cursor: pointer;
+            }
+
+            .mobile-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: white;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .mobile-nav ul li {
+                margin-bottom: 10px;
+            }
+
+            .mobile-nav ul li a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 5px 0;
+            }
+        }
+
+
+
+
+
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .header-mobile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .header-mobile .menu-icon {
+                display: block;
+            }
+
+            .header-mobile .menu-icon svg {
+                width: 30px;
+                height: auto;
+                cursor: pointer;
+            }
+
+            .mobile-nav {
+                display: none;
+                position: fixed;
+                /* Alteração da posição */
+                top: 100%;
+                /* Posicionamento abaixo do cabeçalho */
+                left: auto;
+                /* Redefinindo o posicionamento à esquerda */
+                right: 0;
+                /* Alinhando o menu à direita */
+                background-color: #f2f2f2;
+                /* Alteração da cor de fundo */
+                padding: 8px;
+                /* Redução do padding */
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                /* Adicionando sombra */
+                width: 150px;
+                /* Definindo a largura */
+                overflow: hidden;
+                /* Ocultando o conteúdo que ultrapassar a largura */
+                transition: width 0.3s ease;
+                /* Adicionando transição suave */
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                /* Alterando para disposição vertical */
+                align-items: flex-end;
+                /* Alinhamento à direita */
+            }
+
+            .mobile-nav ul li {
+                margin-bottom: 15px;
+            }
+
+            .mobile-nav ul li a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 5px 0;
+                font-family: 'Roboto', sans-serif;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .header-mobile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .header-mobile .menu-icon {
+                display: block;
+            }
+
+            .header-mobile .menu-icon svg {
+                width: 30px;
+                height: auto;
+                cursor: pointer;
+            }
+
+            .mobile-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                /* Alinhamento à direita */
+                background-color: #f2f2f2;
+                /* Cor de fundo */
+                padding: 10px;
+                border-radius: 5px;
+                max-width: 150px;
+                /* Largura máxima reduzida */
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                /* Sombreamento */
+            }
+
+            .mobile-nav.show {
+                display: block;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                /* Removendo margem padrão */
+            }
+
+            .mobile-nav ul li {
+                margin-bottom: 10px;
+            }
+
+            .mobile-nav ul li a {
+                text-decoration: none;
+                color: #4169e1;
+                display: block;
+                padding: 5px 0;
+            }
+        }
+
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .accessibility-button {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 999;
+                /* Garante que o botão esteja acima de outros elementos */
+            }
+
+            .accessibility-tools {
+                position: fixed;
+                bottom: 70px;
+                /* Ajuste a distância do botão */
+                right: 20px;
+                background-color: white;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                display: none;
+                /* Inicialmente oculto */
+                z-index: 999;
+                /* Garante que esteja acima de outros elementos */
+            }
+
+            .accessibility-tools.show {
+                display: block;
+            }
+
+            .accessibility-tools button {
+                display: block;
+                margin-bottom: 5px;
+                /* Espaçamento entre os botões */
+            }
+        }
+
+
+
+
+
+
+
+        /* Estilos para telas menores */
+        @media (max-width: 600px) {
+            .accessibility-button {
+                position: fixed;
+                bottom: 90px;
+                /* Ajuste a distância do botão */
+                right: 20px;
+                z-index: 999;
+                /* Garante que o botão esteja acima de outros elementos */
+                display: block;
+                /* Mostra o botão apenas em telas menores */
+                background-color: #007BFF;
+                /* Cor de fundo azul */
+                padding: 7.5px;
+                /* Ajuste o tamanho do botão */
+                border-radius: 50%;
+                /* Transforma em um círculo */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s;
+                /* Efeito de transição */
+            }
+
+            .accessibility-button:hover {
+                background-color: #0056b3;
+                /* Cor de fundo azul escuro no hover */
+            }
+
+            .accessibility-button i {
+                font-size: 24px;
+                /* Ajuste o tamanho do ícone */
+                color: white;
+                /* Cor do ícone */
+            }
+
+            .accessibility-tools {
+                position: fixed;
+                bottom: 150px;
+                /* Ajuste a distância do botão */
+                right: 20px;
+                background-color: white;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                display: none;
+                /* Inicialmente oculto */
+                z-index: 999;
+                /* Garante que esteja acima de outros elementos */
+                width: calc(100% - 40px);
+                /* Ajuste a largura */
+                max-width: 300px;
+                /* Largura máxima */
+            }
+
+            .accessibility-tools.show {
+                display: block;
+            }
+
+            .accessibility-tools button {
+                display: block;
+                margin-bottom: 10px;
+                /* Espaçamento entre os botões */
+                width: calc(100% - 20px);
+                /* Ajuste a largura */
+            }
+        }
+
+        /* Oculta o botão de acessibilidade em telas grandes */
+        @media (min-width: 601px) {
+            .accessibility-button {
+                display: none;
+            }
+        }
+
+
+        /* ...........................................................................................................................  */
+
+        /* Acessibilidade  */
+
+        .accessibility-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            /* Garante que o botão esteja acima de outros elementos */
+            display: block;
+            /* Mostra o botão apenas em telas menores */
+        }
+
+        .accessibility-tool {
+            position: fixed;
+            bottom: 70px;
+            /* Ajuste a distância do botão */
+            right: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* Inicialmente oculto */
+            z-index: 999;
+            /* Garante que esteja acima de outros elementos */
+        }
+
+        .accessibility-tool.show {
+            display: block;
+        }
+
+        .accessibility-tool button {
+            display: block;
+            margin-bottom: 5px;
+            /* Espaçamento entre os botões */
+        }
+
+
+        /* Acessibilidade  */
+        .accessibility-btn {
+            background-color: #007BFF;
+            /* Azul Bootstrap */
+            color: white;
+            border: none;
+            padding: 6px 8px;
+            text-align: center;
+            text-decoration: bold;
+            display: inline-block;
+            font-size: 15px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
+            /* Borda arredondada */
+            cursor: pointer;
+            /* Muda o cursor para indicar clicabilidade */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Transição suave para hover */
+            margin-right: 250px;
+            margin-bottom: 5px;
+            font-family: Roboto;
+        }
+
+        .accessibility-btn {
+            background-color: #0056b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        .accessibility-btn:hover {
+            background-color: #007bff;
+        }
+
+        .accessibility-tool button {
+            background-color: #6c757d;
+            width: 48%;
+            margin-top: 5px;
+        }
+
+        .accessibility-tool button {
+            background-color: royalblue;
+            /* Fundo azul royal */
+            color: white;
+            /* Texto em branco */
+            font-weight: bold;
+            /* Texto em negrito */
+            padding: 5px 10px;
+            /* Espaçamento interno */
+            border: 2px solid transparent;
+            /* Borda transparente inicial */
+            border-radius: 5px;
+            /* Borda arredondada */
+            cursor: pointer;
+            /* Muda o cursor para indicar clicabilidade */
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            /* Transição suave para hover */
+        }
+
+        .accessibility-tool button:hover {
+            background-color: white;
+            /* Fundo fica branco */
+            color: royalblue;
+            /* Texto fica azul royal */
+            border-color: royalblue;
+            /* Borda azul royal */
+        }
+
+
+
+        .accessibility-tool a {
+            text-decoration: none;
+            /* Remove sublinhado dos links */
+        }
+
+        .accessibility-tool a:visited,
+        .accessibility-tool a:link {
+            color: inherit;
+            /* Mantém a cor herdada, sem alteração pelo link */
+        }
+
+        .accessibility-tool {
+            display: none;
+        }
+
+        /* ...........................................................................................................................  */
+
+        /* Dark Mode  */
+
+        /* Estilos para o modo escuro */
+        .dark-mode {
+            background-color: #333;
+            /* Cor de fundo escura */
+            color: #fff;
+            /* Cor do texto clara */
+            /* box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); */
+            /* Sombra escura */
+        }
+
+        .dark-mode button {
+            background-color: #0000;
+            /* Cor de fundo dos botões */
+            color: #fff;
+            /* Cor do texto dos botões */
+            border: none;
+            /* Remove a borda dos botões */
+        }
+
+        .dark-mode button:hover {
+            background-color: #666;
+            /* Cor de fundo dos botões no hover */
+        }
+
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode .accessibility-button {
+            background-color: #555;
+        }
+
+        .dark-mode .mobile-nav {
+            background-color: #444;
+        }
+
+        .dark-mode .mobile-nav ul li a {
+            color: #fff;
+        }
+
+        .dark-mode .accessibility-btn {
+            background-color: #0056b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        .dark-mode .accessibility-button {
+            background-color: #0056b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        .dark-mode .accessibility-btn {
+            background-color: #0056b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        /* ..........................................................................................................................  */
+        /* Arrumando botões para telas menores  */
+
+
+        @media only screen and (max-width: 600px) {
+            .book-button {
+                width: 50%;
+                /* Define a largura para ocupar metade da largura disponível */
+            }
+
+            .book-table {
+                width: 100%;
+                /* Define a largura da tabela para ocupar toda a largura disponível */
+            }
+
+            #read-button,
+            #back-to-chapters-button {
+                top: 95px;
+                /* Define a distância do topo da tela */
+                font-size: 15px;
+                /* Define o tamanho da fonte */
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            #translate-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .accessibility-button {
+                width: 40px;
+                height: 40px;
+                bottom: 65px;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            #back-to-books-button {
+                top: 105px;
+            }
+        }
+
+
+        /* ................................................................................................................  */
+
+        #copy-button,
+        #share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            background-color: #3498db;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
+
+        #copy-button:hover,
+        #share-button:hover {
+            background-color: #2980b9;
+        }
+
+        #copy-button i,
+        #share-button i {
+            margin-right: 5px;
+        }
+
+
+        .nav {
+            justify-content: left;
+        }
+
+        /* Estilização padrão */
+        #table-container {
+            display: block;
+            /* Exibe o container da tabela por padrão */
+        }
+
+        #table-minor {
+            display: none;
+            /* Esconde o container menor por padrão */
+        }
+
+        /* Estilização para tela menor */
+        @media (max-width: 768px) {
+            #table-container {
+                display: none;
+                /* Esconde a tabela em telas menores */
+            }
+
+            #table-minor {
+                display: flex;
+                /* Usa Flexbox para centralização */
+                justify-content: center;
+                /* Centraliza horizontalmente */
+                align-items: center;
+                /* Centraliza verticalmente */
+                height: 100vh;
+                /* Ocupa toda a altura da tela */
+                margin-top: 1050px;
+            }
+        }
+
+        /* Estilização padrão */
+        #table-container {
+            display: block;
+            /* Exibe o container da tabela por padrão */
+        }
+
+        #minor-container {
+            display: none;
+            /* Esconde o container menor por padrão */
+        }
+
+        /* Estilização para tela menor */
+        @media (max-width: 768px) {
+            #table-container {
+                display: none;
+                /* Esconde a tabela em telas menores */
+            }
+
+            #minor-container {
+                display: flex;
+                /* Usa Flexbox para centralização */
+                justify-content: center;
+                /* Centraliza horizontalmente */
+                align-items: center;
+                /* Centraliza verticalmente */
+                height: 100vh;
+                /* Ocupa toda a altura da tela */
+            }
+        }
+
+        /* Garantir que todos os botões tenham o mesmo tamanho */
+        .book-button {
+            width: 100px;
+            /* Define a largura do botão */
+            height: 100px;
+            /* Define a altura do botão */
+        }
+
+
+        /* .............................................................................................................................................  */
+
+        .dark-mode .accessibility-btn:hover {
+            background-color: #5a00b3;
+            /* Azul escuro */
+            color: #FFF;
+        }
+
+        .dark-mode .accessibility-tool {
+            background-color: #555;
+            width: 200px;
+            height: 125px;
+            color: #FFF;
+        }
+
+        .dark-mode .accessibility-tool button {
+            background-color: #5a00b3;
+            color: #FFF;
+            width: 100%;
+        }
+
+        .dark-mode .accessibility-tool button:hover {
+            background-color: #7533b7;
+            color: #FFF;
+        }
+
+        .accessibility-tool {
+            width: 200px;
+            height: 135px;
+            color: #FFF;
+        }
+
+        .accessibility-tool button {
+            color: #FFF;
+            width: 100%;
+        }
+
+        .dark-mode #title {
+            color: whitesmoke;
+        }
+
+
+        .dark-mode .btn {
+            background-color: #0008ff;
+        }
+
+        /* Modo escuro */
+        .dark-mode #content-container {
+            background-color: #555;
+            color: white;
+        }
+
+        .dark-mode #content-container .verse-number {
+            color: #ccc;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Estilo do botão */
+        #note-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 99;
+        }
+
+        #note-button:hover {
+            background-color: #2980b9;
+        }
+
+        #note-button i {
+            font-size: 24px;
+        }
+
+        /* Estilos para o modo escuro */
+        .dark-mode .verse {
+            color: #fff;
+            background-color: #333;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode p {
+            color: #fff;
+        }
+
+        .dark-mode #content-container {
+            background-color: #121212;
+        }
+
+        /* Estilos para o modo de alto contraste */
+        .high-contrast .verse {
+            color: #000;
+            background-color: #ffd700;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .high-contrast p {
+            color: #000;
+            background-color: #ffd700;
+        }
+
+        /* Estilos para títulos em alto contraste */
+        .high-contrast #old-testament-title,
+        .high-contrast #new-testament-title {
+            color: #000;
+            background-color: #ffd700;
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            /* Estilos para o modo escuro */
+            .dark-mode {
+                background-color: #000000;
+                /* color: rgb(156, 0, 0);  */
+            }
+
+            /* Estilos para os títulos no modo escuro */
+            .dark-mode #old-testament-title,
+            .dark-mode #new-testament-title {
+                /* background-color: #11ff00; */
+                color: rgb(255, 255, 255);
+                background-image: url('cor.png');
+            }
+
+            /* Estilos para a tabela no modo escuro */
+            .dark-mode .book-table td,
+            .dark-mode .book-table th {
+                background-color: rgb(18, 18, 18);
+                color: rgb(255, 255, 255);
+                /* border: 1px solid #582d00; */
+            }
+
+            /* Estilos para os botões no modo escuro */
+            /* .dark-mode .book-button {
+    border: 1px solid #c400cb;
+} */
+
+
+
+        }
+
+        .dark-mode .menu-icon {
+            color: whitesmoke;
+        }
+
+        .minor {
+            display: none;
+            height: 250px;
+            width: 100%;
+        }
+
+        /* Consulta de mídia para telas menores */
+        @media (max-width: 768px) {
+            .minor {
+                display: block;
+                /* Ou qualquer outra propriedade de exibição que desejar */
+            }
+        }
+
+        .container {
+            margin-top: 5%;
+        }
+
+        /* Botões de Dark Mode e Aumentar/Dininuir Fonte */
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .control-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dark-mode-button {
+            background-color: #003e7b;
+            color: white;
+        }
+
+        .dark-mode-button:hover {
+            background-color: #0400ff;
+        }
+
+        .font-size-button {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .font-size-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos adicionais para Dark Mode */
+        body.dark-mode {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .container.dark-mode {
+            background-color: #23272b;
+            color: white;
+        }
+
+        .search-input-container input.dark-mode {
+            background-color: #495057;
+            color: white;
+        }
+
+        .search-input-container button.dark-mode {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .search-results-list li.dark-mode {
+            background-color: #495057;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border: 2px solid white;
+            /* Borda branca */
+            border-radius: 50%;
+            /* Botão redondo */
+            background-color: #007BFF;
+            /* Cor azul */
+            color: white;
+            /* Cor do ícone */
+            font-size: 24px;
+            /* Tamanho do ícone */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            /* Remove o sublinhado */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            /* Sombra */
+            cursor: pointer;
+            z-index: 1000;
+            /* Mantém no topo */
+            transition: transform 0.2s ease;
+            /* Animação suave */
+        }
+
+        .back-button:hover {
+            transform: scale(1.2);
+            /* Efeito de aumento ao passar o mouse */
+            background-color: #0056b3;
+            /* Azul mais escuro no hover */
+        }
+
+        .back-button i {
+            margin: 0;
+            /* Remove qualquer espaçamento extra ao redor do ícone */
+        }
+
+        .dark-mode .font-size-button {
+            background-color: #4c0783;
+        }
+
+        .dark-mode .read-now {
+            background-color: #4c0783;
+            border-radius: 10px;
+            z-index: 99999999999999;
+        }
+
+        .dark-mode .read-now:hover {
+            background-color: #0008ff;
+            color: #5a00b3;
+            z-index: 99999999999999;
+        }
+
+         .dark-mode .button {
+            background-color: #4c0783;
+            border-color: #333;
+        }
+
+        .dark-mode .search-nav {
+            background-color: #1e1e1e;
+        }
+
+        .dark-mode .text eb-container {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Dark mode styles for items */
+.dark-mode-item {
+    background-color: #11fb00;
+    color: #ffcc00;
+    border: 1px solid #444;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Dark mode specific container styles */
+.dark-mode .no-results {
+    color: #9500ff;
+}
+
+.dark-mode .eb-container, 
+.dark-mode .not-eb-container {
+    color: whitesmoke;
+}
+
+/* Additional styles for dark-mode general usage */
+.dark-mode h5 {
+    color: rgb(255, 255, 255);
+    font-weight: bolder;
+}
+
+.dark-mode .container{
+    background-color: #333;
+}
+
+.dark-mode h3 {
+    color: rgb(255, 255, 255);
+}
+
+.dark-mode .search-results-list li {
+    background-color: #495057;
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header class="header-desktop">
+
+        <div class="logo">
+            <img src="../logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="versododia.html">Verso do Dia</a></li>
+                <li><a href="dicio.html">Dicionário</a></li>
+                <!-- <li class="dropdown">
+                    <span class="dropbtn">Idioma <i class="fas fa-angle-down"></i></span>
+                    <div class="dropdown-content">
+                        <span onclick="changeLanguage('pt')">Português</span>
+                        <span onclick="changeLanguage('en')">Inglês</span>
+                        <span onclick="changeLanguage('es')">Espanhol</span>
+                        <span onclick="changeLanguage('fr')">Francês</span>
+                    </div>
+                </li> -->
+            </ul>
+        </nav>
+        <!-- <div class="read-now">
+            <a href="https://exemplo.com/seu-link-aqui" target="_blank">
+                <button>
+                    <i class="fas fa-book-reader"></i> Leia já
+                </button>
+            </a> -->
+
+
+        </div>
+
+        <div class="read-now">
+            <a href="../biblia-tetelestai.html" target="_blank">
+                <button>
+                    <i class="fas fa-book-reader"></i> Leia já
+                </button>
+            </a>
+        </div>
+        <div class="mode-toggle">
+            <button onclick="toggleMode()">Dark Mode <i class="fas fa-moon"></i></button>
+        </div>
+
+    </header>
+    <!-- Para telas menores -->
+    <header class="header-mobile">
+        <div class="logo">
+            <img src="2.png" alt="Logo">
+        </div>
+        <div class="mode-toggle">
+            <button onclick="toggleMode()">Dark Mode <i class="fas fa-moon"></i></button>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="versododia.html">Verso do Dia</a></li>
+                <li><a href="dicio.html">Dicionário</a></li>
+                <!-- <li><a href="#">Contato</a></li> -->
+                <div class="read-now">
+                    <a href="biblia-tetelestai.html">
+                        <button>
+                            <i class="fas fa-book-reader"></i> Leia já
+                        </button>
+                    </a>
+                </div>
+            </ul>
+        </nav>
+
+    </header>
+
+    <a class="back-button" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <div class="container">
+        <div class="control-buttons">
+            <!-- <button class="dark-mode-button" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button> -->
+            <button class="font-size-button" onclick="decreaseFontSize()">
+                <i class="fas fa-minus"></i> Diminuir Fonte
+            </button>
+            <button class="font-size-button" onclick="increaseFontSize()">
+                <i class="fas fa-plus"></i> Aumentar Fonte
+            </button>
+        </div>
+        <div class="search-input-container">
+            <input type="text" id="search-input" aria-label="Digite uma palavra ou frase para pesquisar"
+                placeholder="Digite uma palavra ou frase..." onkeydown="handleKeyPress(event)">
+            <button onclick="search()">
+                <i class="fas fa-search"></i> Pesquisar
+            </button>
+        </div>
+        <h2>Resultados da pesquisa:</h2>
+        <h3 id="viewing"></h3>
+        <div id="search-nav-top" class="search-nav search-nav-top"></div>
+        <div id="results-list" class="search-results-list list-container"></div>
+        <div id="search-nav-bottom" class="search-nav search-nav-bottom"></div>
+    </div>
+    <script>
+        const resultsList = document.querySelector('#results-list');
+        const searchInput = document.querySelector('#search-input');
+        const searchNavTop = document.querySelector('#search-nav-top');
+        const searchNavBottom = document.querySelector('#search-nav-bottom');
+        const container = document.querySelector('.container');
+        const body = document.body;
+
+        const bibleVersions = {
+            'd63894c8d9a7a503-01': 'Biblia Livre Para Todos',
+            '90799bb5b996fddc-01': 'Translation for Translators in Brasilian Portuguese'
+        };
+
+        const API_KEY = 'e32633f364121e45a2925b8a63877e63'; // Token de acesso
+
+        function search(offset = 0) {
+            const query = searchInput.value;
+            if (query) {
+                document.querySelector('#viewing').innerHTML = query;
+                resultsList.innerHTML = ''; // Limpa os resultados anteriores
+
+                let allResultsHTML = '';
+                let promises = [];
+
+                // Faz uma chamada para cada versão da Bíblia
+                Object.keys(bibleVersions).forEach(versionID => {
+                    promises.push(getResults(query, offset, versionID).then((data) => {
+                        let resultsHTML = '';
+                        if (data.verses) {
+                            if (!data.verses[0]) {
+                                resultsHTML = `<div class="no-results">☹️ No results for ${bibleVersions[versionID]}.</div>`;
+                            } else {
+                                for (let verse of data.verses) {
+                                    resultsHTML += `<li class="${body.classList.contains('dark-mode') ? 'dark-mode' : ''}">
+                                        <h5>${verse.reference} (${bibleVersions[versionID]})</h5>
+                                        <div class="text not-eb-container">${verse.text}</div>
+                                    </li>`;
+                                }
+                            }
+                        }
+
+                        if (data.passages) {
+                            if (!data.passages[0]) {
+                                resultsHTML = `<div class="no-results">☹️ No results for ${bibleVersions[versionID]}.</div>`;
+                            } else {
+                                for (let passage of data.passages) {
+                                    resultsHTML += `<li class="${body.classList.contains('dark-mode') ? 'dark-mode' : ''}">
+                                        <h5>${passage.reference} (${bibleVersions[versionID]})</h5>
+                                        <div class="text eb-container">${passage.content}</div>
+                                    </li>`;
+                                }
+                            }
+                        }
+
+                        allResultsHTML += resultsHTML;
+                    }));
+                });
+
+                // Espera todas as chamadas terminarem e então exibe os resultados
+                Promise.all(promises).then(() => {
+                    resultsList.innerHTML = allResultsHTML;
+                }).catch(error => {
+                    console.error('Error fetching data:', error);
+                    resultsList.innerHTML = '<div class="no-results">☹️ Error fetching results. Please try again later.</div>';
+                });
+            }
+        }
+
+        function getResults(searchText, offset, versionID) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+
+                xhr.addEventListener('readystatechange', function () {
+                    if (this.readyState === this.DONE) {
+                        try {
+                            const { data } = JSON.parse(this.responseText);
+                            resolve(data);
+                        } catch (error) {
+                            reject('Failed to parse response');
+                        }
+                    }
+                });
+
+                xhr.open(
+                    'GET',
+                    `https://api.scripture.api.bible/v1/bibles/${versionID}/search?query=${searchText}&offset=${offset}`
+                );
+                xhr.setRequestHeader('api-key', API_KEY);
+
+                xhr.onerror = () => reject(xhr.statusText);
+
+                xhr.send();
+            });
+        }
+
+        // Função para permitir a pesquisa ao pressionar Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                search();
+            }
+        }
+
+        // Função para alternar Dark Mode
+        function toggleDarkMode() {
+            
+            body.classList.toggle('dark-mode');
+            container.classList.toggle('dark-mode');
+            searchInput.classList.toggle('dark-mode');
+            document.querySelectorAll('.search-input-container button').forEach(btn => btn.classList.toggle('dark-mode'));
+            document.querySelectorAll('.search-results-list li').forEach(item => item.classList.toggle('dark-mode'));
+
+            const logoImage = document.querySelector('.logo img');
+        logoImage.src = isDarkMode ? '1.png' : '2.png';
+        }
+
+        // Função para aumentar o tamanho da fonte
+        function increaseFontSize() {
+            let currentFontSize = parseFloat(window.getComputedStyle(body).fontSize);
+            body.style.fontSize = (currentFontSize + 2) + 'px';
+        }
+
+        // Função para diminuir o tamanho da fonte
+        function decreaseFontSize() {
+            let currentFontSize = parseFloat(window.getComputedStyle(body).fontSize);
+            if (currentFontSize > 10) { // Evita que a fonte fique muito pequena
+                body.style.fontSize = (currentFontSize - 2) + 'px';
+            }
+        }
+
+        // Estilos adicionais para Dark Mode
+        const darkModeStyles = document.createElement('style');
+        darkModeStyles.innerHTML = `
+            body.dark-mode {
+                background-color: #343a40;
+                color: white;
+            }
+
+            .container.dark-mode {
+                background-color: #23272b;
+                color: white;
+            }
+
+            .search-input-container input.dark-mode {
+                background-color: #495057;
+                color: white;
+            }
+
+            .search-input-container button.dark-mode {
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .search-results-list li.dark-mode {
+                background-color: #495057;
+                color: white;
+                border-color: #6c757d;
+            }
+        `;
+        document.head.appendChild(darkModeStyles);
+
+        function toggleMenu() {
+        var mobileNav = document.querySelector('.mobile-nav');
+        mobileNav.classList.toggle('show');
+    }
+
+    // Fecha o menu se o usuário clicar fora dele
+    document.addEventListener('click', function (event) {
+        var mobileNav = document.querySelector('.mobile-nav');
+        var menuIcon = document.querySelector('.menu-icon');
+
+        // Verifica se o clique foi fora do menu e do botão de menu
+        if (!mobileNav.contains(event.target) && !menuIcon.contains(event.target)) {
+            mobileNav.classList.remove('show');
+        }
+    });
+
+
+    function toggleMode() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            document.querySelector('header').classList.toggle('dark-mode-header');
+
+            const logoImage = document.querySelector('.logo img');
+            logoImage.src = isDarkMode ? '6.png' : '2.png';
+
+            document.querySelectorAll('img').forEach(img => {
+                if (!img.parentElement.classList.contains('logo')) {
+                    img.classList.toggle('dark-img');
+                }
+            });
+
+            document.querySelectorAll('nav a, nav span, .dropbtn, .dropdown-content span').forEach(link => {
+                link.classList.toggle('dark-mode-text');
+            });
+
+            document.body.style.backgroundColor = isDarkMode ? "#121212" : "white";
+            document.body.style.color = isDarkMode ? "#FFFFFF" : "black";
+
+            const modeToggleButton = document.querySelector('.mode-toggle button');
+            if (isDarkMode) {
+                modeToggleButton.innerHTML = 'Light Mode <i class="fas fa-sun"></i>';
+            } else {
+                modeToggleButton.innerHTML = 'Dark Mode <i class="fas fa-moon"></i>';
+            }
+
+            document.body.style.animation = isDarkMode ? 'darkModeAnimation 0.5s' : 'none';
+        }
+    </script>
+</body>
+
+</html>
+
+</body>
+
+</html>
