@@ -9,7 +9,7 @@
     <title>Bíblia Tetelestai</title>
     <link rel="icon" href="1.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/bibliatetelestai/manifest.json">
 </head>
 
 <body>
@@ -345,7 +345,11 @@
         <p class="developer-credit">Developed by Edu</p>
     </footer>
 
-    <script src="pt.js"></script>
+    <script src="pt.js">
+        if (typeof navigator.serviceWorker !== undefined) {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+    </script>
 
 </body>
 
