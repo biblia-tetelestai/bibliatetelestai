@@ -277,6 +277,13 @@
         }
 
         type();
+
+        if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/pwabuilder-sw.js')
+    .then(registration => console.log('SW registrado com sucesso:', registration))
+    .catch(error => console.error('Falha no registro do SW:', error));
+}
+
     </script>
 </body>
 </html>
