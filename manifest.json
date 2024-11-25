@@ -1,7 +1,7 @@
 {
   "name": "Bíblia Tetelestai",
   "short_name": "Bíblia",
-  "start_url": "./biblia-tetelestai.html",
+  "start_url": "/bibliatetelestai/biblia-tetelestai.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
