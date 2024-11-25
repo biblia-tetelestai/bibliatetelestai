@@ -766,7 +766,7 @@ body.dark-mode #translate-menu li a:hover::after {
 /* Arrumando botões para telas menores  */
 
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .book-button {
         width: 50%;
         /* Define a largura para ocupar metade da largura disponível */
@@ -786,14 +786,14 @@ body.dark-mode #translate-menu li a:hover::after {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     #translate-btn {
         width: 40px;
         height: 40px;
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .accessibility-button {
         width: 40px;
         height: 40px;
@@ -801,7 +801,7 @@ body.dark-mode #translate-menu li a:hover::after {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     #back-to-books-button {
         top: 105px;
     }
@@ -902,7 +902,7 @@ body.dark-mode #translate-menu li a:hover::after {
 }
 
 /* Adicionando regra de mídia para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .unique-dropbtn {
         font-size: 18px;
         /* Tamanho de fonte menor em telas pequenas */
@@ -951,7 +951,7 @@ header {
 }
 
 /* Adicionando regra de mídia para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     header {
         padding: 10px;
         /* Adicione um preenchimento menor */
@@ -1054,7 +1054,7 @@ header {
 }
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 
     /* Esconde o header padrão para telas maiores */
     .header-desktop {
@@ -1126,7 +1126,7 @@ header {
 }
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .header-mobile {
         display: flex;
         justify-content: space-between;
@@ -1186,7 +1186,7 @@ header {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .accessibility-button {
         position: fixed;
         bottom: 20px;
@@ -1228,7 +1228,7 @@ header {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .accessibility-button {
         position: fixed;
         bottom: 90px;
@@ -1828,7 +1828,7 @@ nav a {
 }
 
 /* Adicionando regra de mídia para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .unique-dropbtn {
         font-size: 18px;
         /* Tamanho de fonte menor em telas pequenas */
@@ -1987,7 +1987,7 @@ nav a {
 }
 
 /* Adicionando regra de mídia para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     header {
         padding: 10px;
         /* Adicione um preenchimento menor */
@@ -2117,7 +2117,7 @@ body.dark-mode #translate-menu li a:hover::after {
 }
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 
     /* Esconde o header padrão para telas maiores */
     .header-desktop {
@@ -2194,7 +2194,7 @@ body.dark-mode #translate-menu li a:hover::after {
 /* Header para telas menores  */
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .header-mobile {
         display: flex;
         justify-content: space-between;
@@ -2238,7 +2238,7 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .header-mobile {
         display: flex;
         justify-content: space-between;
@@ -2294,7 +2294,7 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .header-mobile {
         display: flex;
         justify-content: space-between;
@@ -2368,7 +2368,7 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .header-mobile {
         display: flex;
         justify-content: space-between;
@@ -2427,7 +2427,7 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .accessibility-button {
         position: fixed;
         bottom: 20px;
@@ -2469,7 +2469,7 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilos para telas menores */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .accessibility-button {
         position: fixed;
         bottom: 90px;
@@ -2791,7 +2791,7 @@ body.dark-mode #translate-menu li a:hover::after {
 /* Arrumando botões para telas menores  */
 
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .book-button {
         width: 50%;
         /* Define a largura para ocupar metade da largura disponível */
@@ -2811,14 +2811,14 @@ body.dark-mode #translate-menu li a:hover::after {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     #translate-btn {
         width: 40px;
         height: 40px;
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .accessibility-button {
         width: 40px;
         height: 40px;
@@ -2831,7 +2831,7 @@ body.dark-mode #translate-menu li a:hover::after {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     #back-to-books-button {
         top: 105px;
     }
@@ -2968,7 +2968,7 @@ body.dark-mode #translate-menu li a:hover::after {
     color: #ddd;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 
     .dark-mode .header-mobile .menu-icon {
         color: #ccc;
@@ -2986,13 +2986,13 @@ body.dark-mode #translate-menu li a:hover::after {
 
 
 /* Estilo para ocultar unique-container em telas menores que 600px */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 .unique-container {
 display: none;
 }
 }
 /* Estilo para aumentar a altura da div .space em telas menores que 600px */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 .space {
 height: 40px; /* Altura aumentada para telas menores */
 }
@@ -3378,7 +3378,7 @@ footer .developer-credit {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .footer-logo {
         display: none;
     }
@@ -3503,7 +3503,7 @@ footer .developer-credit {
     z-index: 1000000000000;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .back-button {
         width: 30px;
         height: 30px;
