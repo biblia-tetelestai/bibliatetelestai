@@ -25,7 +25,7 @@ Acesse o aplicativo diretamente pelo link abaixo:
 ## ✍️ Sobre os Desenvolvedores  
 
 - **Desenvolvedor**: Edu Fidelis 👨‍💻  
-- **Autor**: Jesus Cristo ✝️  
+- **Autor**: ***Jesus Cristo*** ✝️  
 
 ## ❤️ Contribuições  
 
@@ -39,8 +39,10 @@ Se você gostaria de contribuir para o projeto, siga os passos abaixo:
 
 ## 📜 Licença  
 
-Este projeto é dedicado à glória de DEUS.  
+Este projeto é dedicado à glória de ***DEUS***.  
+
 BSD-2-Clause license
+
 ---
 
 Desenvolvido com fé e amor,  
