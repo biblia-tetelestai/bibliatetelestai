@@ -25,7 +25,7 @@ Acesse o aplicativo diretamente pelo link abaixo:
 ## ✍️ Sobre os Desenvolvedores  
 
 - **Desenvolvedor**: Edu Fidelis 👨‍💻  
-- **Autor**: ***Jesus Cristo*** ✝️  
+- **Autor**: ***JESUS CRISTO*** ✝️  
 
 ## ❤️ Contribuições  
 
@@ -47,3 +47,6 @@ BSD-2-Clause license
 
 Desenvolvido com fé e amor,  
 **Edu Fidelis** 🙌  
+
+------
+*Dedicado ao **Autor** e **Consumador** da nossa fé, Àquele que morreu por amor, pagando pelos pecados de toda a humanidade, para salvar a mim e a você!*
