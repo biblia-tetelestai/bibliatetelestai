@@ -40,7 +40,7 @@ Se você gostaria de contribuir para o projeto, siga os passos abaixo:
 ## 📜 Licença  
 
 Este projeto é dedicado à glória de DEUS.  
-
+BSD-2-Clause license
 ---
 
 Desenvolvido com fé e amor,  
