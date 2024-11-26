@@ -39,7 +39,7 @@ Se você gostaria de contribuir para o projeto, siga os passos abaixo:
 
 ## 📜 Licença  
 
-Este projeto é dedicado à glória de Deus e é de livre utilização.  
+Este projeto é dedicado à glória de DEUS.  
 
 ---
 
